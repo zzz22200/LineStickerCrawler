@@ -28,7 +28,7 @@ def getTitle(content):
 
 for i in range(0,1):
     content = urllib.request.urlopen(url).read().decode("utf-8","ignore")
-    rule = '(https://stickershop.line-scdn.net/stickershop/v1/sticker/[0-9]+/ANDROID/sticker.png)' #正則匹配
+    rule = '(https.*sticker\.png)' #正則匹配
     title = getTitle(content)
     fileLocation = directoryLocation+"\\"+title
     if not os.path.exists(fileLocation):
