@@ -2,8 +2,11 @@ import urllib.request
 import re
 from urllib.request import urlretrieve
 
+
+#下載儲存位置
+fileLocation='C:\\Users\\ximple\\Desktop\\line爬圖'
 #設置關鍵字
-keywords = "4034526"
+keywords = "1471879"
 #quote函數進行url編碼(屏蔽特殊的字符)
 key = urllib.request.quote(keywords)
 #設置User-Agent
@@ -27,16 +30,13 @@ for i in range(0,1):
     content = urllib.request.urlopen(url).read().decode("utf-8","ignore")
     rule = '(https://stickershop.line-scdn.net/stickershop/v1/sticker/[0-9]+/ANDROID/sticker.png)' #正則匹配
 
-    chineseRule = '[\u4e00-\u9fff]+'
-    titleRule = '"mdCMN08Ttl">' + chineseRule
-    titleString = (re.compile(titleRule).findall(content)).__str__()
-    title = re.compile(chineseRule).findall(titleString)
+    title = getTitle(content)
 
     title = getTitle(content)
     imglist = re.compile(rule).findall(content) #獲取圖片列表
     for j in range(0,len(imglist)):
         imgurl = imglist[j]
-        file = "C:\\Users\\ximple\\Documents\\LanceProject\\img\\"+str(j+1)+".jpg"
+        file = "\\"+"KUSOHAMU\\"+str(j+1)+".jpg"
         urlretrieve(imgurl, filename=file)
         print('第', j +1, '張下載完成!')
 
