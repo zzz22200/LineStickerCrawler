@@ -1,12 +1,14 @@
 import urllib.request
 import re
 from urllib.request import urlretrieve
-from html.parser import HTMLParser
+import os
 from bs4 import BeautifulSoup
+
+
 #下載儲存位置
-fileLocation='C:\\Users\\ximple\\Desktop\\line爬圖'
+directoryLocation='C:\\Users\\ximple\\Desktop\\line爬圖'
 #設置要爬的頁面
-url = "https://store.line.me/stickershop/product/4034526/zh-Hant"
+url = "https://store.line.me/stickershop/product/4337259/zh-Hant"
 
 
 
@@ -25,17 +27,17 @@ def getTitle(content):
     return title
 
 for i in range(0,1):
-    #print(url)
     content = urllib.request.urlopen(url).read().decode("utf-8","ignore")
     rule = '(https://stickershop.line-scdn.net/stickershop/v1/sticker/[0-9]+/ANDROID/sticker.png)' #正則匹配
-
     title = getTitle(content)
+    fileLocation = directoryLocation+"\\"+title
+    if not os.path.exists(fileLocation):
+        os.makedirs(fileLocation)
 
-    title = getTitle(content)
     imglist = re.compile(rule).findall(content) #獲取圖片列表
     for j in range(0,len(imglist)):
         imgurl = imglist[j]
-        file = fileLocation+"\\"+title+"\\"+str(j+1)+".jpg"
+        file = fileLocation+"\\"+str(j+1)+".jpg"
         urlretrieve(imgurl, filename=file)
         print('第', j +1, '張下載完成!')
 print("已全部下載完成")
