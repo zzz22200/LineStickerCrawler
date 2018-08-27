@@ -13,7 +13,13 @@ opener = urllib.request.build_opener()
 opener.addheaders = [headers]
 urllib.request.install_opener(opener)
 #循環遍歷抓取
+def getTitle(content):
+    chineseRule = '[\u4e00-\u9fff]+'
+    titleRule = '"mdCMN08Ttl">' + chineseRule
+    titleString = (re.compile(titleRule).findall(content)).__str__()
+    title = re.compile(chineseRule).findall(titleString)
 
+    return title
 
 for i in range(0,1):
     url = "https://store.line.me/stickershop/product/"+key+"/zh-Hant"
