@@ -1,1 +1,4 @@
 .idea/workspace.xml
+venv/
+.idea/misc.xml
+.idea/LineStickerCrawler.iml
