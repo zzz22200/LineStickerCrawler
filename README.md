@@ -4,12 +4,6 @@ ex:C:\Users\YourName\Desktop\line爬圖'
 ![](https://i.imgur.com/v7ZwRqo.png)
 
 
-  
-    
-      
-        
-     
-        
  
 ### 將crawler.py 標頭的 *url* 改為欲下載貼圖的頁面
 

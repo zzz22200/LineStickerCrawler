@@ -2,3 +2,7 @@
 venv/
 .idea/misc.xml
 .idea/LineStickerCrawler.iml
+build/
+dist/
+img/
+__pycache__/crawler.cpython-36.pyc

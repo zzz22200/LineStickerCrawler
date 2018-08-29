@@ -3,13 +3,14 @@ import re
 from urllib.request import urlretrieve
 import os
 from bs4 import BeautifulSoup
+import configparser
 
-
+config = configparser.ConfigParser()
+config.read('crawler.config')
 #下載儲存位置
-directoryLocation='C:\\Users\\ximple\\Desktop\\line爬圖'
+directoryLocation=os.getcwd()+'\\img'
 #設置要爬的頁面
-url = "https://store.line.me/stickershop/product/4337259/zh-Hant"
-
+urlList = config['lineStoreUrl']['url'].split(',')
 
 
 #設置User-Agent
@@ -26,14 +27,15 @@ def getTitle(content):
     title=soup.find('h3','mdCMN08Ttl').text
     return title
 
-for i in range(0,1):
-    content = urllib.request.urlopen(url).read().decode("utf-8","ignore")
+for i in range(0,len(urlList)):
+
+    content = urllib.request.urlopen(urlList[i]).read().decode("utf-8","ignore")
     rule = '(https.*sticker\.png)' #正則匹配
     title = getTitle(content)
     fileLocation = directoryLocation+"\\"+title
     if not os.path.exists(fileLocation):
         os.makedirs(fileLocation)
-
+    print('開始下載 '+title)
     imglist = re.compile(rule).findall(content) #獲取圖片列表
     for j in range(0,len(imglist)):
         imgurl = imglist[j]
