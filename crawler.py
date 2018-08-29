@@ -1,4 +1,6 @@
-import urllib.request
+from urllib import request
+from urllib import error
+
 import re
 from urllib.request import urlretrieve
 import os
@@ -16,9 +18,9 @@ urlList = config['lineStoreUrl']['url'].split(',')
 #設置User-Agent
 headers=("User_Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 SE 2.X MetaSr 1.0")
 #自定義opener
-opener = urllib.request.build_opener()
+opener = request.build_opener()
 opener.addheaders = [headers]
-urllib.request.install_opener(opener)
+request.install_opener(opener)
 
 
 
@@ -27,9 +29,18 @@ def getTitle(content):
     title=soup.find('h3','mdCMN08Ttl').text
     return title
 
+def hasAnimationPng(imgurl):
+    animationUrl=imgurl[:-4]+'_animation@2x.png'
+    try:
+        request.urlopen(animationUrl)
+    except error.URLError  as err:
+        return imgurl
+    return animationUrl
+
+
 for i in range(0,len(urlList)):
 
-    content = urllib.request.urlopen(urlList[i]).read().decode("utf-8","ignore")
+    content = request.urlopen(urlList[i]).read().decode("utf-8","ignore")
     rule = '(https.*sticker\.png)' #正則匹配
     title = getTitle(content)
     fileLocation = directoryLocation+"\\"+title
@@ -38,8 +49,9 @@ for i in range(0,len(urlList)):
     print('開始下載 '+title)
     imglist = re.compile(rule).findall(content) #獲取圖片列表
     for j in range(0,len(imglist)):
-        imgurl = imglist[j]
-        file = fileLocation+"\\"+str(j+1)+".jpg"
+
+        imgurl=hasAnimationPng(imglist[j])
+        file = fileLocation+"\\"+str(j+1)+".png"
         urlretrieve(imgurl, filename=file)
         print('第', j +1, '張下載完成!')
 print("已全部下載完成")

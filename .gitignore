@@ -6,3 +6,4 @@ build/
 dist/
 img/
 __pycache__/crawler.cpython-36.pyc
+crawler.config
