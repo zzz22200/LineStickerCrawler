@@ -1,12 +1,10 @@
 from urllib import request
 from urllib import error
-
-import re
 from urllib.request import urlretrieve
-import os
+import os,re
 from bs4 import BeautifulSoup
 import configparser
-
+from apng2gif import apng2gif
 config = configparser.ConfigParser()
 config.read('crawler.config')
 #下載儲存位置
@@ -53,6 +51,7 @@ for i in range(0,len(urlList)):
         imgurl=hasAnimationPng(imglist[j])
         file = fileLocation+"\\"+str(j+1)+".png"
         urlretrieve(imgurl, filename=file)
+        apng2gif(file)
         print('第', j +1, '張下載完成!')
 print("已全部下載完成")
 
