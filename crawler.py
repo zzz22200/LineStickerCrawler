@@ -46,12 +46,12 @@ for i in range(0,len(urlList)):
         os.makedirs(fileLocation)
     print('開始下載 '+title)
     imglist = re.compile(rule).findall(content) #獲取圖片列表
-    for j in range(0,len(imglist)):
+    for count in range(0,len(imglist)):
 
-        imgurl=hasAnimationPng(imglist[j])
-        file = fileLocation+"\\"+str(j+1)+".png"
+        imgurl=hasAnimationPng(imglist[count])
+        file = fileLocation+"\\"+str(count+1)+".png"
         urlretrieve(imgurl, filename=file)
-        apng2gif(file)
-        print('第', j +1, '張下載完成!')
+        apng2gif(file,count+1,fileLocation)
+        print('第', count +1, '張下載完成!')
 print("已全部下載完成")
 

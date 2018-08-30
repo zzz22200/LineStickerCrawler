@@ -7,3 +7,4 @@ dist/
 img/
 __pycache__/crawler.cpython-36.pyc
 crawler.config
+__pycache__/apng2gif.cpython-36.pyc

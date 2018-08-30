@@ -4,13 +4,20 @@ from apng import APNG
 import numpy as np
 
 
-def apng2gif(imgFile):
+def apng2gif(imgFile,count,fileLocation):
     im = APNG.open(imgFile)
     pngframes = []
-    for img in enumerate(im.frames):
-        pngframes.append(img[1][0])
+    im2 = imageio.imread(imgFile)
+
+    for i, (png, control) in enumerate(im.frames):
+        frameFile=fileLocation+"\\{count}-{i}.png".format(i=i,count=count)
+        png.save(frameFile)
+        im = imageio.imread(frameFile)
+        pngframes.append(im)
+        os.remove(frameFile)
+
+    os.remove(imgFile)
+    imageio.mimsave(imgFile[:-4]+'.gif',pngframes, duration = 0.05)
 
 
-    frames=np.array(pngframes)
-    print(type(frames))
-    imageio.mimsave(imgFile[:-4]+'.gif',frames)
+
