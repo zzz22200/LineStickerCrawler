@@ -47,6 +47,7 @@ for i in range(0,len(urlList)):
     content = request.urlopen(urlList[i]).read().decode("utf-8","ignore")
     rule = '(https.*sticker\.png)' #正則匹配
     title = getTitle(content)
+    title = re.sub('\s', '', title)
     fileLocation = directoryLocation+"\\"+title
     if not os.path.exists(fileLocation):
         os.makedirs(fileLocation)
