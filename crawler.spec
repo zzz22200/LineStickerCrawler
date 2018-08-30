@@ -26,4 +26,4 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=True , icon='C:\\Users\\ximple\\Documents\\LanceProject\\LineStickerCrawler\\lancecat.ico')
+          console=True , icon='lancecat.ico')

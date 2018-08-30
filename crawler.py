@@ -21,6 +21,10 @@ opener.addheaders = [headers]
 request.install_opener(opener)
 
 
+def saveImg(imgurl):
+    file = fileLocation + "\\" + str(count + 1) + ".png"
+    urlretrieve(imgurl, filename=file)
+    return file
 
 def getTitle(content):
     soup = BeautifulSoup(content, 'html.parser')
@@ -31,9 +35,11 @@ def hasAnimationPng(imgurl):
     animationUrl=imgurl[:-4]+'_animation@2x.png'
     try:
         request.urlopen(animationUrl)
+        file = saveImg(animationUrl)
+        apng2gif(file)
     except error.URLError  as err:
-        return imgurl
-    return animationUrl
+        saveImg(imgurl)
+
 
 
 for i in range(0,len(urlList)):
@@ -49,9 +55,7 @@ for i in range(0,len(urlList)):
     for count in range(0,len(imglist)):
 
         imgurl=hasAnimationPng(imglist[count])
-        file = fileLocation+"\\"+str(count+1)+".png"
-        urlretrieve(imgurl, filename=file)
-        apng2gif(file,count+1,fileLocation)
+
         print('第', count +1, '張下載完成!')
 print("已全部下載完成")
 
