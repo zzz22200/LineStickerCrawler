@@ -41,6 +41,7 @@ def getTitle(content):
 def hasAnimationPng(imgurl):
     animationUrl = imgurl[:-4] + '_animation@2x.png'
     try:
+        animationUrl = re.sub('ANDROID', 'IOS', animationUrl)
         request.urlopen(animationUrl)
         file = saveImg(animationUrl, '動圖')
         apng2gif(file)
@@ -49,7 +50,7 @@ def hasAnimationPng(imgurl):
 
 
 for i in range(0, len(urlList)):
-    downLoadType='貼圖'
+    downLoadType = '貼圖'
     content = request.urlopen(urlList[i]).read().decode("utf-8", "ignore")
     rule = '(https.*sticker\.png)'  # 正則匹配
     ruleEmoji = '(https.*/\d{3}\.png)'
