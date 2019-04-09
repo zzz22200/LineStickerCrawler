@@ -34,15 +34,14 @@ def saveImg(imgurl, downLoadType):
 
 def getTitle(content):
     soup = BeautifulSoup(content, 'html.parser')
-    title = soup.find('h3', 'mdCMN08Ttl').text
+    title = soup.find('p', 'mdCMN38Item01Ttl').text
     return title
 
 
-def hasAnimationPng(imgurl):
-    animationUrl = imgurl[:-4] + '_animation@2x.png'
+def downloadImageList(imgurl):
+    # if animationUrl download animation png ,else download imageurl
+    animationUrl = imgurl[:-7] + '_animation@2x.png'
     try:
-        animationUrl = re.sub('ANDROID', 'IOS', animationUrl)
-        request.urlopen(animationUrl)
         file = saveImg(animationUrl, '動圖')
         apng2gif(file)
     except error.URLError  as err:
@@ -52,7 +51,7 @@ def hasAnimationPng(imgurl):
 for i in range(0, len(urlList)):
     downLoadType = '貼圖'
     content = request.urlopen(urlList[i]).read().decode("utf-8", "ignore")
-    rule = '(https.*sticker\.png)'  # 正則匹配
+    rule = '(https.*sticker@2x\.png)'  # 正則匹配
     ruleEmoji = '(https.*/\d{3}\.png)'
     title = getTitle(content)
     title = re.sub('\s', '', title)
@@ -64,7 +63,7 @@ for i in range(0, len(urlList)):
         imglist = re.compile(ruleEmoji).findall(content)  # 小表情規則
         downLoadType = '小表情'
     for count in range(0, len(imglist)):
-        imgurl = hasAnimationPng(imglist[count])
+        imgurl = downloadImageList(imglist[count])
 
         print('第', count + 1, '張下載完成!')
 print("已全部下載完成")
